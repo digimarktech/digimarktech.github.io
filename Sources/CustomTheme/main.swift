@@ -6,7 +6,10 @@ import Plot
 struct CustomTheme: Website {
     enum SectionID: String, WebsiteSectionID {
         // Add the sections that you want your website to contain here:
+        case portfolio
+        case about
         case posts
+        case contact
     }
 
     struct ItemMetadata: WebsiteItemMetadata {
@@ -18,8 +21,8 @@ struct CustomTheme: Website {
     var name = "CustomTheme"
     var description = "A description of CustomTheme"
     var language: Language { .english }
-    var imagePath: Path? { nil }
+    var imagePath: Path? { Path("assets") }
 }
 
 // This will generate your website using the built-in Foundation theme:
-try CustomTheme().publish(withTheme: .foundation)
+try CustomTheme().publish(withTheme: .myTheme)
