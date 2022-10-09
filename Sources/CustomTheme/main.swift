@@ -2,8 +2,37 @@ import Foundation
 import Publish
 import Plot
 
+public struct ItemData: Decodable, Equatable, Hashable {
+    var page: String
+
+    var iconName: String {
+        switch page {
+        case "first":
+            return "cabin.png"
+        case "second":
+            return "cake.png"
+        case "third":
+            return "circus.png"
+        default: return ""
+        }
+    }
+
+    var portfolioID: String {
+        switch page {
+        case "first":
+            return "portfolioModal1"
+        case "second":
+            return "portfolioModal2"
+        case "third":
+            return "portfolioModal3"
+        default: return ""
+        }
+    }
+}
+
 // This type acts as the configuration for your website.
-struct CustomTheme: Website {
+struct CustomTheme: Website, CustomThemeWebsite {
+
     enum SectionID: String, WebsiteSectionID {
         // Add the sections that you want your website to contain here:
         case portfolio
@@ -12,8 +41,9 @@ struct CustomTheme: Website {
         case contact
     }
 
-    struct ItemMetadata: WebsiteItemMetadata {
-        // Add any site-specific metadata that you want to use here.
+    struct ItemMetadata: WebsiteItemMetadata, CustomThemeWebsiteItemMetadata {
+        var portfolioIcon: String?
+        var data: ItemData
     }
 
     // Update these properties to configure your website:
@@ -22,6 +52,8 @@ struct CustomTheme: Website {
     var description = "A description of CustomTheme"
     var language: Language { .english }
     var imagePath: Path? { Path("assets") }
+    var jobTitle = "Graphic Artist - Web Designer - Illustrator"
+    var portfolioIcon: String = ""
 }
 
 // This will generate your website using the built-in Foundation theme:
