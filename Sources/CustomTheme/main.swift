@@ -3,27 +3,27 @@ import Publish
 import Plot
 
 public struct ItemData: Decodable, Equatable, Hashable {
-    var page: String
+    var id: Int
 
     var iconName: String {
-        switch page {
-        case "first":
+        switch id {
+        case 1:
             return "cabin.png"
-        case "second":
+        case 2:
             return "cake.png"
-        case "third":
+        case 3:
             return "circus.png"
         default: return ""
         }
     }
 
     var portfolioID: String {
-        switch page {
-        case "first":
+        switch id {
+        case 1:
             return "portfolioModal1"
-        case "second":
+        case 2:
             return "portfolioModal2"
-        case "third":
+        case 3:
             return "portfolioModal3"
         default: return ""
         }
