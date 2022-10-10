@@ -45,29 +45,18 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
         HTML(
             .lang(context.site.language),
             .head(for: index, on: context.site),
-            .body {
-                SiteHeader(context: context, selectedSelectionID: nil)
-                H2("Cats")
-            }
-        )
-    }
-
-    func makeSectionHTML(for section: Publish.Section<Site>, context: Publish.PublishingContext<Site>) throws -> Plot.HTML {
-        HTML(
-            .lang(context.site.language),
-            .head(for: section, on: context.site),
             .raw(
                 """
                 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
                 """
             ),
             .body {
-                SiteHeader(context: context, selectedSelectionID: section.id)
+                SiteHeader(context: context, selectedSelectionID: nil)
 
                 // Portfolio Section
                 Div {
                     Div {
-                        H2(section.title)
+                        H2("Portfolio")
                             .class("page-section-heading text-center text-uppercase text-secondary mb-0")
                         Div {
                             Div{}.class("divider-custom-line")
@@ -79,10 +68,12 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                             Div{}.class("divider-custom-line")
                         }
                         .class("divider-custom")
-                        PortfolioItemGroup(items: section.items.sorted(by: { item1, item2 in
-                            return item1.date < item2.date
-                        }), site: context.site)
+                        PortfolioItemGroup(items: context.sections.first(where: { section in
+                            return section.title == "Portfolio"
+                        })!.items, site: context.site)
                             .class("row justify-content-center")
+
+                            
                     }
                     .class("container")
                 }
@@ -123,10 +114,12 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
 
                             // About Section Button
                             Div {
-                                Element(name: "i") {}
-                                    .class("fas fa-download me-2")
-                                Link("Free Download", url: "https://startbootstrap.com/theme/freelancer/")
-                                    .class("btn btn-xl btn-outline-light")
+                                Link(url: "https://startbootstrap.com/theme/freelancer/") {
+                                    Element(name: "i") {}
+                                        .class("fas fa-download me-2")
+                                    Text("Free Download")
+                                }
+                                .class("btn btn-xl btn-outline-light")
                             }
                             .class("text-center mt-4")
                         }
@@ -138,7 +131,115 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 .id("about")
 
                 // Modals
-                PortfolioItemModalGroup(items: section.items, site: context.site)
+                PortfolioItemModalGroup(items: context.sections.first(where: { section in
+                    return section.title == "Portfolio"
+                })!.items, site: context.site)
+            },
+            .raw(
+                """
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+                <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>
+                <script src="js/scripts.js"></script>
+                """
+            )
+        )
+    }
+
+    func makeSectionHTML(for section: Publish.Section<Site>, context: Publish.PublishingContext<Site>) throws -> Plot.HTML {
+        HTML(
+            .lang(context.site.language),
+            .head(for: section, on: context.site),
+            .raw(
+                """
+                <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+                """
+            ),
+            .body {
+                SiteHeader(context: context, selectedSelectionID: section.id)
+
+                if section.title == "Portfolio" {
+                    // Portfolio Section
+                    Div {
+                        Div {
+                            H2(section.title)
+                                .class("page-section-heading text-center text-uppercase text-secondary mb-0")
+                            Div {
+                                Div{}.class("divider-custom-line")
+                                Div {
+                                    Element(name: "i") {}
+                                        .class("fas fa-star")
+                                }
+                                .class("divider-custom-icon")
+                                Div{}.class("divider-custom-line")
+                            }
+                            .class("divider-custom")
+                            PortfolioItemGroup(items: section.items.sorted(by: { item1, item2 in
+                                return item1.date < item2.date
+                            }), site: context.site)
+                                .class("row justify-content-center")
+                        }
+                        .class("container")
+                    }
+                    .class("page-section portfolio")
+                    .style("padding-top: 10rem;")
+                    .id("portfolio")
+
+                    // Modals
+                    PortfolioItemModalGroup(items: section.items, site: context.site)
+                }
+
+                if section.title == "About" {
+                    // About Section
+                    Div {
+                        Div {
+                            // About Section Heading
+                            H2("About")
+                                .class("page-section-heading text-center text-uppercase text-white")
+
+                            // Icon Divider
+                            Div {
+                                Div{}.class("divider-custom-line")
+                                Div {
+                                    Element(name: "i") {}
+                                        .class("fas fa-star")
+                                }
+                                .class("divider-custom-icon")
+                                Div{}.class("divider-custom-line")
+                            }
+                            .class("divider-custom divider-light")
+
+                            // About Section Content
+                            Div {
+                                Div {
+                                    Paragraph("Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.")
+                                        .class("lead")
+                                }
+                                .class("col-lg-4 ms-auto")
+                                Div {
+                                    Paragraph("You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!")
+                                        .class("lead")
+                                }
+                                .class("col-lg-4 me-auto")
+
+                                // About Section Button
+                                Div {
+                                    Link(url: "https://startbootstrap.com/theme/freelancer/") {
+                                        Element(name: "i") {}
+                                            .class("fas fa-download me-2")
+                                        Text("Free Download")
+                                    }
+                                    .class("btn btn-xl btn-outline-light")
+                                }
+                                .class("text-center mt-4")
+                            }
+                            .class("row")
+                        }
+                        .class("container")
+                    }
+                    .class("page-section bg-primary text-white mb-0")
+                    .style("padding-top: 10rem;")
+                    .id("about")
+                }
             },
             .raw(
                 """
@@ -158,110 +259,22 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 .class("item-page"),
                 .components {
                     SiteHeader(context: context, selectedSelectionID: item.sectionID)
-//                    Wrapper {
-//                        Article {
-//                            Div(item.content.body).class("content")
-//                            Span("Tagged with: ")
-//                            ItemTagList(item: item, site: context.site)
-//                        }
-//                    }
-//                    SiteFooter()
                 }
             )
         )
     }
 
     func makePageHTML(for page: Publish.Page, context: Publish.PublishingContext<Site>) throws -> Plot.HTML {
-        HTML(
-//            .lang(context.site.language),
-//            .head(for: page, on: context.site),
-//            .body {
-//                // alternative header
-//                Header {
-//                    Wrapper {
-//                        Div {
-//                            Link(context.site.name, url: "/")
-//                                .class("site-name")
-//                        }
-//                        .class("title")
-//
-//                        Div {
-//                            if Site.SectionID.allCases.count > 1 {
-//                                Navigation {
-//                                    List(Site.SectionID.allCases) { sectionID in
-//                                        let section = context.sections[sectionID]
-//                                        return Link(section.title,
-//                                            url: section.path.absoluteString
-//                                        )
-//                                        .class(sectionID.rawValue == page.title ? "selected" : "")
-//                                    }
-//                                }
-//                            }
-//                        }
-//                        .class("navigation")
-//                    }
-//                }
-//                // alternative header end
-//                Wrapper(page.body)
-////                SiteFooter()
-//            }
-        )
+        try makeIndexHTML(for: context.index, context: context)
     }
 
     func makeTagListHTML(for page: Publish.TagListPage, context: Publish.PublishingContext<Site>) throws -> Plot.HTML? {
-        HTML(
-            .lang(context.site.language),
-            .head(for: page, on: context.site),
-            .body {
-                SiteHeader(context: context, selectedSelectionID: nil)
-                Wrapper {
-                    H1("Browse all tags")
-                    List(page.tags.sorted()) { tag in
-                        ListItem {
-                            Link(tag.string,
-                                 url: context.site.path(for: tag).absoluteString
-                            )
-                        }
-                        .class("tag")
-                    }
-                    .class("all-tags")
-                }
-//                SiteFooter()
-            }
-        )
+        nil
     }
 
     func makeTagDetailsHTML(for page: Publish.TagDetailsPage, context: Publish.PublishingContext<Site>) throws -> Plot.HTML? {
-        HTML(
-            .lang(context.site.language),
-            .head(for: page, on: context.site),
-            .body {
-                SiteHeader(context: context, selectedSelectionID: nil)
-                Wrapper {
-                    H1 {
-                        Text("Tagged with ")
-                        Span(page.tag.string).class("tag")
-                    }
-
-                    Link("Browse all tags",
-                        url: context.site.tagListPath.absoluteString
-                    )
-                    .class("browse-all")
-
-                    ItemList(
-                        items: context.items(
-                            taggedWith: page.tag,
-                            sortedBy: \.date,
-                            order: .descending
-                        ),
-                        site: context.site
-                    )
-                }
-//                SiteFooter()
-            }
-        )
+        nil
     }
-
 }
 
 private struct Wrapper: ComponentContainer {
@@ -272,7 +285,7 @@ private struct Wrapper: ComponentContainer {
     }
 }
 
-private struct SiteHeader<Site: Website>: Component {
+private struct SiteHeader<Site: Website>: Component where Site: CustomThemeWebsite {
     var context: PublishingContext<Site>
     var selectedSelectionID: Site.SectionID?
 
@@ -280,7 +293,7 @@ private struct SiteHeader<Site: Website>: Component {
         Div {
             Navigation {
                 Div {
-                    Link(context.site.name, url: "#page-top")
+                    Link(context.site.name, url: "/")
                         .class("navbar-brand")
                     Button("Menu")
                         .class("navbar-toggler text-uppercase font-weight-bold bg-primary text-white rounded")
@@ -303,28 +316,30 @@ private struct SiteHeader<Site: Website>: Component {
             .class("navbar navbar-expand-lg bg-secondary text-uppercase fixed-top")
             .id("mainNav")
 
-            Header {
-                Div {
-                    Image("/assets/img/avataaars.svg")
-                        .class("masthead-avatar mb-5")
-                    H1(context.site.name)
-                        .class("masthead-heading text-uppercase mb-0")
+            if selectedSelectionID == nil {
+                Header {
                     Div {
-                        Div {}.class("divider-custom-line")
+                        Image("/assets/img/avataaars.svg")
+                            .class("masthead-avatar mb-5")
+                        H1(context.site.name)
+                            .class("masthead-heading text-uppercase mb-0")
                         Div {
-                            Element(name: "i") {}
-                                .class("fas fa-star")
+                            Div {}.class("divider-custom-line")
+                            Div {
+                                Element(name: "i") {}
+                                    .class("fas fa-star")
+                            }
+                            .class("divider-custom-icon")
+                            Div {}.class("divider-custom-line")
                         }
-                        .class("divider-custom-icon")
-                        Div {}.class("divider-custom-line")
+                        .class("divider-custom divider-light")
+                        Paragraph(context.site.name)
+                            .class("masthead-subheading font-weight-light mb-0")
                     }
-                    .class("divider-custom divider-light")
-                    Paragraph(context.site.name)
-                        .class("masthead-subheading font-weight-light mb-0")
+                    .class("container d-flex align-items-center flex-column")
                 }
-                .class("container d-flex align-items-center flex-column")
+                .class("masthead bg-primary text-white text-center")
             }
-            .class("masthead bg-primary text-white text-center")
         }
 
     }
