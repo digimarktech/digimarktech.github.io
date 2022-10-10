@@ -47,7 +47,7 @@ struct CustomTheme: Website, CustomThemeWebsite {
     }
 
     // Update these properties to configure your website:
-    var url = URL(string: "https://your-website-url.com")!
+    var url = URL(string: "https://digimarktech.github.io/CustomTheme")!
     var name = "CustomTheme"
     var description = "A description of CustomTheme"
     var language: Language { .english }
