@@ -63,6 +63,7 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
             ),
             .body {
                 SiteHeader(context: context, selectedSelectionID: section.id)
+
                 // Portfolio Section
                 Div {
                     Div {
@@ -87,6 +88,54 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 }
                 .class("page-section portfolio")
                 .id("portfolio")
+
+                // About Section
+                Div {
+                    Div {
+                        // About Section Heading
+                        H2("About")
+                            .class("page-section-heading text-center text-uppercase text-white")
+
+                        // Icon Divider
+                        Div {
+                            Div{}.class("divider-custom-line")
+                            Div {
+                                Element(name: "i") {}
+                                    .class("fas fa-star")
+                            }
+                            .class("divider-custom-icon")
+                            Div{}.class("divider-custom-line")
+                        }
+                        .class("divider-custom divider-light")
+
+                        // About Section Content
+                        Div {
+                            Div {
+                                Paragraph("Freelancer is a free bootstrap theme created by Start Bootstrap. The download includes the complete source files including HTML, CSS, and JavaScript as well as optional SASS stylesheets for easy customization.")
+                                    .class("lead")
+                            }
+                            .class("col-lg-4 ms-auto")
+                            Div {
+                                Paragraph("You can create your own custom avatar for the masthead, change the icon in the dividers, and add your email address to the contact form to make it fully functional!")
+                                    .class("lead")
+                            }
+                            .class("col-lg-4 me-auto")
+
+                            // About Section Button
+                            Div {
+                                Element(name: "i") {}
+                                    .class("fas fa-download me-2")
+                                Link("Free Download", url: "https://startbootstrap.com/theme/freelancer/")
+                                    .class("btn btn-xl btn-outline-light")
+                            }
+                            .class("text-center mt-4")
+                        }
+                        .class("row")
+                    }
+                    .class("container")
+                }
+                .class("page-section bg-primary text-white mb-0")
+                .id("about")
 
                 // Modals
                 PortfolioItemModalGroup(items: section.items, site: context.site)
