@@ -56,6 +56,11 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
         HTML(
             .lang(context.site.language),
             .head(for: section, on: context.site),
+            .raw(
+                """
+                <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+                """
+            ),
             .body {
                 SiteHeader(context: context, selectedSelectionID: section.id)
                 // Portfolio Section
@@ -65,10 +70,17 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                             .class("page-section-heading text-center text-uppercase text-secondary mb-0")
                         Div {
                             Div{}.class("divider-custom-line")
+                            Div {
+                                Element(name: "i") {}
+                                    .class("fas fa-star")
+                            }
+                            .class("divider-custom-icon")
                             Div{}.class("divider-custom-line")
                         }
                         .class("divider-custom")
-                        PortfolioItemGroup(items: section.items, site: context.site)
+                        PortfolioItemGroup(items: section.items.sorted(by: { item1, item2 in
+                            return item1.date < item2.date
+                        }), site: context.site)
                             .class("row justify-content-center")
                     }
                     .class("container")
@@ -250,6 +262,11 @@ private struct SiteHeader<Site: Website>: Component {
                         .class("masthead-heading text-uppercase mb-0")
                     Div {
                         Div {}.class("divider-custom-line")
+                        Div {
+                            Element(name: "i") {}
+                                .class("fas fa-star")
+                        }
+                        .class("divider-custom-icon")
                         Div {}.class("divider-custom-line")
                     }
                     .class("divider-custom divider-light")
@@ -307,6 +324,11 @@ private struct PortfolioItemModalGroup<Site: Website>: Component where Site: Cus
                                         // Icon Divider
                                         Div {
                                             Div{}.class("divider-custom-line")
+                                            Div {
+                                                Element(name: "i") {}
+                                                    .class("fas fa-star")
+                                            }
+                                            .class("divider-custom-icon")
                                             Div{}.class("divider-custom-line")
                                         }
                                         .class("divider-custom")
@@ -315,7 +337,7 @@ private struct PortfolioItemModalGroup<Site: Website>: Component where Site: Cus
                                             .class("img-fluid rounded mb-5")
 
                                         // Body Text
-                                        Paragraph("Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur itaque. Nam.")
+                                        Paragraph(item.description)
                                             .class("mb-4")
 
                                         // Close Button
@@ -353,11 +375,14 @@ private struct PortfolioItemGroup<Site: Website>: Component where Site: CustomTh
             Div {
                 Div {
                     Div {
-                        Div {}
+                        Div {
+                            Element(name: "i") {}
+                                .class("fas fa-plus fa-3x")
+                        }
                             .class("portfolio-item-caption-content text-center text-white")
                     }
                     .class("portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100")
-                    Image("/assets/img/portfolio/\(item.metadata.portfolioIcon ?? "")")
+                    Image("/assets/img/portfolio/\(item.metadata.data.iconName)")
                         .class("img-fluid")
                 }
                 .class("portfolio-item mx-auto")
