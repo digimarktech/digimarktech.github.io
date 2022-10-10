@@ -59,5 +59,5 @@ struct CustomTheme: Website, CustomThemeWebsite {
 // This will generate your website using the built-in Foundation theme:
 try CustomTheme().publish(
     withTheme: .myTheme,
-    deployedUsing: .gitHub("digimarktech/CustomTheme", useSSH: false)
+    deployedUsing: .gitHub("digimarktech/digimarktech.github.io", useSSH: false)
 )
