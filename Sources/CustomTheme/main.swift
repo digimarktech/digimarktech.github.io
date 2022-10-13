@@ -37,7 +37,6 @@ struct CustomTheme: Website, CustomThemeWebsite {
         // Add the sections that you want your website to contain here:
         case portfolio
         case about
-        case posts
         case contact
     }
 

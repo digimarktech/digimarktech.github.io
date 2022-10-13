@@ -493,7 +493,7 @@ private struct SiteHeader<Site: Website>: Component where Site: CustomThemeWebsi
                 let activeString = sectionID == selectedSelectionID ? "active" : ""
                 return ListItem {
                     Link(section.title,
-                        url: section.path.absoluteString
+                         url: "#\(section.path)"//section.path.absoluteString
                     )
                     .class("nav-link py-3 px-0 px-lg-3 rounded \(activeString)")
                 }
