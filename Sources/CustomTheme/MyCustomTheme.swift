@@ -272,6 +272,20 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 .class("page-section")
                 .id("contact")
 
+                // Footer
+                SiteFooter()
+
+                // Copyright Section
+                Div {
+                    Div {
+                        Element(name: "small") {
+                            Text("Copyright &copy; digimarktech.github.io 2022")
+                        }
+                    }
+                    .class("container")
+                }
+                .class("copyright py-4 text-center text-white")
+
                 // Modals
                 PortfolioItemModalGroup(items: context.sections.first(where: { section in
                     return section.title == "Portfolio"
@@ -502,6 +516,74 @@ private struct SiteHeader<Site: Website>: Component where Site: CustomThemeWebsi
             .class("navbar-nav ms-auto")
             .listStyle(.unordered)
         }
+    }
+}
+
+private struct SiteFooter: Component {
+    var body: Component {
+        Footer {
+            Div {
+                Div {
+                    // Footer Location
+                    Div {
+                        H4("Location")
+                            .class("text-uppercase mb-4")
+                        Paragraph {
+                            Text("2215 John Daniel Drive")
+                                .addLineBreak()
+                            Text("Clark, MO 65243")
+                        }
+                        .class("lead mb-0")
+                    }
+                    .class("col-lg-4 mb-5 mb-lg-0")
+
+                    // Footer Social Icons
+                    Div {
+                        H4("Around the Web")
+                            .class("text-uppercase mb-4")
+                        Link(url: "#!") {
+                            Element(name: "i") {}
+                                .class("fab fa-fw fa-facebook-f")
+                        }
+                        .class("btn btn-outline-light btn-social mx-1")
+                        Link(url: "#!") {
+                            Element(name: "i") {}
+                                .class("fab fa-fw fa-twitter")
+                        }
+                        .class("btn btn-outline-light btn-social mx-1")
+                        Link(url: "#!") {
+                            Element(name: "i") {}
+                                .class("fab fa-fw fa-linkedin-in")
+                        }
+                        .class("btn btn-outline-light btn-social mx-1")
+                        Link(url: "#!") {
+                            Element(name: "i") {}
+                                .class("fab fa-fw fa-dribbble")
+                        }
+                        .class("btn btn-outline-light btn-social mx-1")
+                    }
+                    .class("col-lg-4 mb-5 mb-lg-0")
+
+                    // Footer About Text
+                    Div {
+                        H4("About Freelancer")
+                            .class("text-uppercase mb-4")
+                        Paragraph {
+                            Text("Freelance is a free to use, MIT licensed Bootstrap theme created by ")
+                            Link(url: "http://startbootstrap.com") {
+                                Text("Start Bootstrap")
+                                Text(".")
+                            }
+                        }
+                        .class("lead mb-0")
+                    }
+                    .class("col-lg-4")
+                }
+                .class("row")
+            }
+            .class("container")
+        }
+        .class("footer text-center")
     }
 }
 
