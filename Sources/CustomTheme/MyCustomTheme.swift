@@ -54,7 +54,7 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 SiteHeader(context: context, selectedSelectionID: nil)
 
                 // Portfolio Section
-                Div {
+                Element(name: "section") {
                     Div {
                         H2("Portfolio")
                             .class("page-section-heading text-center text-uppercase text-secondary mb-0")
@@ -81,7 +81,7 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 .id("portfolio")
 
                 // About Section
-                Div {
+                Element(name: "section") {
                     Div {
                         // About Section Heading
                         H2("About")
@@ -348,11 +348,12 @@ private struct SiteHeader<Site: Website>: Component where Site: CustomThemeWebsi
         Navigation {
             List(Site.SectionID.allCases) { sectionID in
                 let section = context.sections[sectionID]
+                let activeString = sectionID == selectedSelectionID ? "active" : ""
                 return ListItem {
                     Link(section.title,
                         url: section.path.absoluteString
                     )
-                    .class("nav-link py-3 px-0 px-lg-3 rounded")
+                    .class("nav-link py-3 px-0 px-lg-3 rounded \(activeString)")
                 }
                 .class("nav-item mx-0 mx-lg-1")
             }
