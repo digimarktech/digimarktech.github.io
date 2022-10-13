@@ -130,6 +130,148 @@ private struct MyCustomThemeHTMLFactory<Site: Website>: HTMLFactory where Site: 
                 .class("page-section bg-primary text-white mb-0")
                 .id("about")
 
+                // Contact Section
+                Element(name: "section") {
+                    Div {
+                        // Contact Section Heading
+                        H2("Contact Me")
+                            .class("page-section-heading text-center text-uppercase text-secondary mb-0")
+
+                        // Icon Divider
+                        Div {
+                            Div{}.class("divider-custom-line")
+                            Div {
+                                Element(name: "i") {}
+                                    .class("fas fa-star")
+                            }
+                            .class("divider-custom-icon")
+                            Div{}.class("divider-custom-line")
+                        }
+                        .class("divider-custom")
+
+                        // Contact Section Form
+                        Div {
+                            Div {
+//                                <!-- * * * * * * * * * * * * * * *-->
+//                                <!-- * * SB Forms Contact Form * *-->
+//                                <!-- * * * * * * * * * * * * * * *-->
+//                                <!-- This form is pre-integrated with SB Forms.-->
+//                                <!-- To make this form functional, sign up at-->
+//                                <!-- https://startbootstrap.com/solution/contact-forms-->
+//                                <!-- to get an API token!-->
+                                Form(url: "") {
+                                    // Name
+                                    Div {
+                                        Input(type: .text, isRequired: true, placeholder: "Enter your name...")
+                                            .class("form-control")
+                                            .id("name")
+                                            .data(named: "sb-validations", value: "required")
+                                        Label("Full Name") {}
+                                        Div {
+                                            Text("A name is required.")
+                                        }
+                                        .class("invalid-feedback")
+                                        .data(named: "sb-feedback", value: "name:required")
+                                    }
+                                    .class("form-floating mb-3")
+
+                                    // Email Address Input
+                                    Div {
+                                        Input(type: .email, isRequired: true, placeholder: "name@example.com")
+                                            .class("form-control")
+                                            .id("email")
+                                            .data(named: "sb-validations", value: "required,email")
+                                        Label("Email address") {}
+                                        Div {
+                                            Text("An email is required.")
+                                        }
+                                        .class("invalid-feedback")
+                                        .data(named: "sb-feedback", value: "email:required")
+                                        Div {
+                                            Text("Email is not valid.")
+                                        }
+                                        .class("invalid-feedback")
+                                        .data(named: "sb-feedback", value: "email:email")
+                                    }
+                                    .class("form-floating mb-3")
+
+                                    // Phone Number Input
+                                    Div {
+                                        Input(type: .tel, isRequired: true, placeholder: "(123) 456-7890")
+                                            .class("form-control")
+                                            .id("phone")
+                                            .data(named: "sb-validations", value: "required")
+                                        Label("Phone Number") {}
+                                        Div {
+                                            Text("A phone number is required.")
+                                        }
+                                        .class("invalid-feedback")
+                                        .data(named: "sb-feedback", value: "phone:required")
+                                    }
+                                    .class("form-floating mb-3")
+
+                                    // Message Input
+                                    Div {
+                                        TextArea()
+                                            .class("form-control")
+                                            .id("message")
+                                            .data(named: "sb-validations", value: "required")
+                                            .style("height: 10rem")
+                                        Label("Message") {}
+                                        Div {
+                                            Text("A message is required.")
+                                        }
+                                        .class("invalid-feedback")
+                                        .data(named: "sb-feedback", value: "message:required")
+                                    }
+                                    .class("form-floating mb-3")
+
+//                                    <!-- Submit success message-->
+//                                    <!---->
+//                                    <!-- This is what your users will see when the form-->
+//                                    <!-- has successfully submitted-->
+                                    Div {
+                                        Div {
+                                            Div {
+                                                Text("Form submission successful!")
+                                            }
+                                            .class("fw-bolder")
+                                        }
+                                        .class("text-center mb-3")
+                                    }
+                                    .class("d-none")
+                                    .id("submitSuccessMessage")
+
+//                                    <!-- Submit error message-->
+//                                    <!---->
+//                                    <!-- This is what your users will see when there is-->
+//                                    <!-- an error submitting the form-->
+                                    Div {
+                                        Div {
+                                            Text("Error sending message!")
+                                        }
+                                        .class("text-center text-danger mb-3")
+                                    }
+                                    .class("d-none")
+                                    .id("submitErrorMessage")
+
+                                    Button("Send")
+                                        .class("btn btn-primary btn-xl disabled")
+                                        .id("submitButton")
+
+                                }
+                                .data(named: "sb-form-api-token", value: "603e177d-76ef-4647-beaa-99588bbb05d3")
+                                .id("contactForm")
+                            }
+                            .class("col-lg-8 col-xl-7")
+                        }
+                        .class("row justify-content-center")
+                    }
+                    .class("container")
+                }
+                .class("page-section")
+                .id("contact")
+
                 // Modals
                 PortfolioItemModalGroup(items: context.sections.first(where: { section in
                     return section.title == "Portfolio"
