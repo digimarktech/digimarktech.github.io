@@ -1,0 +1,15 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["4T87K25SZU.com.digimarktech.FamilyHomeManageriOS"],
+        "components": [
+          {
+            "/": "/plaid/*",
+            "comment": "Matches any URL path whose path starts with /plaid/"
+          }
+        ]
+      }
+    ]
+  }
+}
